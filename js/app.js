@@ -47,6 +47,7 @@ jQuery(document).ready(function( $ ) {
                 contact: contact,
                 hours: hours,
                 phone: phone,
+                address: address,
             },
             type: 'POST',
             success: function(e){

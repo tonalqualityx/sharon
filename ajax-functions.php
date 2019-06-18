@@ -19,12 +19,33 @@ function indsha_save_org_form(){
     if(isset($_POST['org_id'])){
         $org_id = $_POST['org_id'];
     }
-    if(isset($_POST['title'])){
+    if(isset($_POST['content'])){
         $args = array(
             'ID' => $org_id,
-            'post_title' => $_POST['title'],
+            // 'post_title' => $_POST['title'],
+            'post_content' => $_POST['content'],
         );
         $new_id = wp_update_post($args, true);
+    }
+    if(isset($_POST['email'])){
+        $email = $_POST['email'];
+        update_post_meta($org_id, 'wpcf-org-email', $email);
+    }
+    if(isset($_POST['contact'])){
+        $contact = $_POST['contact'];
+        update_post_meta($org_id, 'wpcf-org-point-of-contact', $contact);
+    }
+    if(isset($_POST['hours'])){
+        $hours = $_POST['hours'];
+        update_post_meta($org_id, 'wpcf-org-hours-of-operation', $hours);
+    }
+    if(isset($_POST['phone'])){
+        $phone = $_POST['phone'];
+        update_post_meta($org_id, 'wpcf-org-phone', $phone);
+    }
+    if(isset($_POST['address'])){
+        $address = $_POST['address'];
+        update_post_meta($org_id, 'wpcf-org-address', $address);
     }
     die();
 }
