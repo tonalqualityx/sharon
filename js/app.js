@@ -1,60 +1,9 @@
 jQuery(document).ready(function( $ ) {
     $('body').on('change', '.org-dropdown', function(){
-        indshaAddLoading();
         var id = $(this).val();
         console.log(id);
-        $.ajax({
-            url:indsha_ajax.ajaxurl,
-            dataType: 'text',
-            method: 'POST',
-            data: {
-                action: 'indsha_get_org_form',
-                id:id,
-            },
-            type: 'POST',
-            success: function(e){
-                console.log(e);
-                e = JSON.parse(e);
-                indshaDelLoading();
-                $('.org-management-form-container').empty();
-                $('.org-management-form-container').append(e['output']);
-            }
-        });
-    })
-
-    $('body').on('submit', '#cred_form_4803_1', function(e){
-        e.preventDefault();
-        indshaAddLoading();
-        var org_id = $('.org-dropdown').val();
-        var address = $('[name="wpcf-org-address"]').val();
-        var title = $('[name="post_title"]').val();
-        var content = $('[name="post_content"]').val();
-        var email = $('[name="wpcf-org-email"]').val();
-        var contact = $('[name="wpcf-org-point-of-contact"').val();
-        var hours = $('[name="wpcf-org-hours-of-operation"]').val();
-        var phone = $('[name="wpcf-org-phone"]').val();
-        console.log(address);
-        $.ajax({
-            url:indsha_ajax.ajaxurl,
-            dataType: 'text',
-            method: 'POST',
-            data: {
-                action: 'indsha_save_org_form',
-                org_id: org_id,
-                title: title,
-                content: content,
-                email: email,
-                contact: contact,
-                hours: hours,
-                phone: phone,
-                address: address,
-            },
-            type: 'POST',
-            success: function(e){
-                console.log(e);
-                indshaDelLoading();
-            }
-        });
+        var base = $('#org-form-go').data('url');
+        $('#org-form-go').attr('href', base + id);
     })
 
     function indshaAddLoading(location = 'body', primary = 'white', secondary = 'white', background = 'indsha-loading-background'){

@@ -1,3 +1,10 @@
+.hide{
+    display:none;
+}
+.form-title{
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
 /* loading */
 .indsha-loading-background{
 	position: fixed;

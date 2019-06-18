@@ -16,7 +16,7 @@ function ind_organization_management(){
             $id = $the_query->post->ID;
             $slug = $the_query->post->post_name;
             $option = get_user_meta($user_id, $slug . "_" . $id, true);
-            if($option){
+            if($option || current_user_can('administrator')){
                 $has_orgs = true;
                 array_push($orgs_array, $id);
             }
@@ -36,11 +36,11 @@ function ind_organization_management(){
                     }
                 ?>
             </select>
+            <a id='org-form-go' data-url='<?php echo home_url(); ?>/organization-management-form?id=' href='#'>Go</a>
             <div class='org-management-form-container'></div>
             <?php
-            echo ob_get_clean();
-            // echo do_shortcode( '[cred_form form="4803", post=' . 4784 . ']' );
-            // cred_form(4803, 4784);
+            $form = ob_get_clean();
+            echo $form;
         // }
 
     }else{
@@ -48,3 +48,14 @@ function ind_organization_management(){
     }
 }
 add_shortcode( 'ind-organization-management', 'ind_organization_management' );
+
+function ind_org_management_form(){
+    if(isset($_GET['id'])){
+        $id = $_GET['id'];
+    }
+    ?>
+    <h1 class='form-title'>Editing - <?php echo get_the_title($id); ?></h1>
+    <?php 
+    cred_form(4803,$id);
+}
+add_shortcode( 'ind-org-management-form', 'ind_org_management_form' );
