@@ -23,19 +23,19 @@
     justify-content: center;
     animation: ind-fade 1s ease-in-out 1;
 }
-.image{
+.ind-image{
   	position: absolute;
   	-webkit-animation:spin 2s linear infinite;
     -moz-animation:spin 2s linear infinite;
     animation:spin 2s linear infinite;
 }
-.image-rev{
+.ind-image-rev{
   	position: absolute;
   	-webkit-animation:revspin 4s linear infinite;
     -moz-animation:revspin 4s linear infinite;
     animation:revspin 4s linear infinite;
 }
-.image-rev-2{
+.ind-image-rev-2{
   	position: absolute;
   	-webkit-animation:revspin 5s linear infinite;
  	-moz-animation:revspin 5s linear infinite;
