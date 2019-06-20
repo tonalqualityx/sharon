@@ -44,18 +44,8 @@ function ind_organization_management(){
         // }
 
     }else{
-        return 'You do not have access to any organizaitons.';
+        $return = 'You do not have access to any organizaitons.';
+        $return .= wp_login_form();
     }
 }
 add_shortcode( 'ind-organization-management', 'ind_organization_management' );
-
-function ind_org_management_form(){
-    if(isset($_GET['id'])){
-        $id = $_GET['id'];
-    }
-    ?>
-    <h1 class='form-title'>Editing - <?php echo get_the_title($id); ?></h1>
-    <?php 
-    cred_form(4803,$id);
-}
-add_shortcode( 'ind-org-management-form', 'ind_org_management_form' );
