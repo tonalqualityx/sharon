@@ -80,3 +80,14 @@ function ind_complete_management(){
     }
 }
 add_shortcode( 'ind-complete-management', 'ind_complete_management' );
+
+function ind_org_management_form(){
+    if(isset($_GET['id'])){
+        $id = $_GET['id'];
+    }
+    ?>
+    <h1 class='form-title'>Editing - <?php echo get_the_title($id); ?></h1>
+    <?php 
+    cred_form(4803,$id);
+}
+add_shortcode( 'ind-org-management-form', 'ind_org_management_form' );
