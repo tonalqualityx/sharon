@@ -27,7 +27,7 @@ function indsha_enqueue(){
       array(
          'ajaxurl' => admin_url( 'admin-ajax.php' ),
          'pluginDirectory' => plugins_url(),
-         'guide_nonce' => wp_create_nonce(),
+         'sharon_nonce' => wp_create_nonce('public_nonce'),
       )
    );
    wp_enqueue_script('indsha-js');

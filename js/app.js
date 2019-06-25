@@ -13,7 +13,29 @@ jQuery(document).ready(function( $ ) {
     function indshaDelLoading(){
         jQuery('.indsha-loading-background').remove();
     }
-
+    $('body').on('click', '#complete-form-go', function(e){
+        e.preventDefault();
+        indshaAddLoading();
+        var num = $('.complete-dropdown').find(":selected").val();
+        console.log(num);
+        $.ajax({
+            url: indsha_ajax.ajaxurl,
+            dataType: 'text',
+            method: 'POST',
+            data: {
+                action: 'indsha_return_complete_select_ajax',
+                num: num,
+                nonce: indsha_ajax.sharon_nonce,
+            },
+            type: 'POST',
+            success: function(e){
+                console.log(e);
+                $('.complete-management-form-container').empty();
+                $('.complete-management-form-container').append(e);
+                indshaDelLoading();
+            }
+        })
+    })
 });
 
 // start of stand alone functions

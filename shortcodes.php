@@ -27,7 +27,7 @@ function ind_organization_management(){
             ob_start();
             ?>
             <select id="organization" name="organization" placeholder="" class="org-dropdown" required="">
-                <option value="" dissabled selected>Select an Organization</option>
+                <option value="" dissabled selected>Select Department/Committee</option>
                 <?php
                     foreach($orgs_array as $key => $value){
                         ?>
@@ -44,8 +44,39 @@ function ind_organization_management(){
         // }
 
     }else{
-        $return = 'You do not have access to any organizaitons.';
+        $return = "Sorry, you don't have permission to access this content.";
         $return .= wp_login_form();
     }
 }
 add_shortcode( 'ind-organization-management', 'ind_organization_management' );
+
+function ind_complete_management(){
+    $has_orgs = false;
+    $choice = ['Edit Department/Committee Page', 'Schedule a meeting or event', 'Post minutes', 'Upload a document unrelated to a meeting'];
+    if(is_user_logged_in() && (current_user_can('administrator') || $has_orgs)){
+        // foreach($choice as $key => $value){
+            ob_start();
+            ?>
+            <select id="complete-dropdown" name="complete" placeholder="" class="complete-dropdown" required="">
+                <option value="" dissabled selected>What do you want to do?</option>
+                <?php
+                    foreach($choice as $key => $value){
+                        ?>
+                        <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                        <?php
+                    }
+                ?>
+            </select>
+            <a id='complete-form-go' data-url='<?php echo home_url(); ?>/complete-management-form?id=' href='#'>Go</a>
+            <div class='complete-management-form-container'></div>
+            <?php
+            $form = ob_get_clean();
+            echo $form;
+        // }
+
+    }else{
+        $return = "Sorry, you don't have permission to access this content.";
+        $return .= wp_login_form();
+    }
+}
+add_shortcode( 'ind-complete-management', 'ind_complete_management' );
