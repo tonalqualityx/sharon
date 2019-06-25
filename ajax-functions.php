@@ -15,6 +15,7 @@ function indsha_return_complete_select_ajax(){
             break;
         case 1:
             // schedule a meeting or event
+            echo do_shortcode('[ind-edit-meeting-event]');
             break;
         case 2:
             // post minutes
