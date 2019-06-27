@@ -27,7 +27,7 @@ function indsha_enqueue(){
       array(
          'ajaxurl' => admin_url( 'admin-ajax.php' ),
          'pluginDirectory' => plugins_url(),
-         'guide_nonce' => wp_create_nonce(),
+         'sharon_nonce' => wp_create_nonce('public_nonce'),
       )
    );
    wp_enqueue_script('indsha-js');
@@ -39,3 +39,12 @@ function indsha_admin_enqueue(){
 }
 add_action('admin_enqueue_scripts', 'indsha_admin_enqueue');
 
+add_filter( 'wp_headers', 'itsg_add_ie_edge_wp_headers' );
+
+function itsg_add_ie_edge_wp_headers( $headers ) {
+    if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && ( strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) !== false ) ) {
+        $headers['X-UA-Compatible'] = 'IE=edge,chrome=1';
+    }
+    
+    return $headers;
+}
