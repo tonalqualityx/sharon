@@ -5,13 +5,30 @@
     margin-top: 10px;
     margin-bottom: 25px;
 }
+.doc-upload-warning, .required-form-text{
+    color: red;
+}
+.event-doc-file-title-text{
+    font-size: 1em;
+    font-weight: 600;
+}
+#complete-dropdown{
+    max-width: 80%;
+}
+#event-doc-content{
+    width: 50vw;
+    height: 10em;
+}
+#event-doc-agenda, .event-doc-file{
+    max-width: 100%;
+}
 /* loading */
 .indsha-loading-background{
 	position: fixed;
     top: 0;
     height: 100%;
     width: 100%;
-    background: #0000005a;
+    background: rgba(0, 0, 0, 0.353);
     z-index: 99999999;
 }
 #indsha-loading-icon{
