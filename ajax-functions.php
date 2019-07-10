@@ -179,3 +179,30 @@ function indsha_save_event_ajax(){
 }
 add_action( 'wp_ajax_indsha_save_event_ajax', 'indsha_save_event_ajax' );
 add_action('wp_ajax_nopriv_indsha_save_event_ajax', 'indsha_save_event_ajax');
+
+function indsha_report_a_concern_ajax(){
+    $security = check_ajax_referer( 'public_nonce', 'nonce');
+    if(!$security){
+        die();
+    }
+    $mask_js_url = home_url()  . '/wp-content/plugins/gravityforms/js/jquery.maskedinput.min.js';
+    
+
+    ob_start();
+    echo $mask_js;
+    ?>
+    <div class='ind-modal-container'>
+        <div class='ind-inside-modal-container'>
+            <div class='ind-modal-x'>X</div>
+            <?php echo do_shortcode('[gravityform id=1]'); ?>
+        </div>
+        <div class='ind-modal-bg'></div>
+    </div>
+    <?php
+    $return = ob_get_clean();
+    
+    echo json_encode(array('modal' => $return, 'filename' => $mask_js_url), true);
+    die();
+}
+add_action( 'wp_ajax_indsha_report_a_concern_ajax', 'indsha_report_a_concern_ajax' );
+add_action('wp_ajax_nopriv_indsha_report_a_concern_ajax', 'indsha_report_a_concern_ajax');

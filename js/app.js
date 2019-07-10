@@ -170,6 +170,38 @@ jQuery(document).ready(function( $ ) {
             $(this).parent().append('<div class="doc-upload-warning">This file type must be a PDF</div>');
         }
     });
+    // report a concern menu button
+    $('body').on('click', '#menu-item-4703', function(e){
+        e.preventDefault();
+        indshaAddLoading();
+        $.ajax({
+            url: indsha_ajax.ajaxurl,
+            dataType: 'text',
+            method: 'POST',
+            data: {
+                action: 'indsha_report_a_concern_ajax',
+                nonce: indsha_ajax.sharon_nonce,
+            },
+            type: 'POST',
+            success: function(e){
+                e = JSON.parse(e);
+                console.log(e['filename']);
+                var script = document.createElement( 'script' );
+                script.type = 'text/javascript';
+                script.src = e['filename'];
+                $( "head" ).prepend( script );
+                $('body').prepend(e['modal']);
+                indshaDelLoading();
+            }
+        });
+    });
+
+    $('body').on('click', '.ind-modal-x', function(){
+        $('.ind-modal-container').remove();
+    });
+    $('body').on('click', '.ind-modal-bg', function(){
+        $('.ind-modal-container').remove();
+    });
 });
 
 function indshaAddLoading(){

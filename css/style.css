@@ -22,6 +22,55 @@
 #event-doc-agenda, .event-doc-file{
     max-width: 100%;
 }
+
+/* modal */
+.ind-modal-bg{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.57);
+}
+.ind-modal-container{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999999;
+}
+.ind-inside-modal-container{
+    position: absolute;
+    background: white;
+    z-index: 1;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 10vh;
+    width: 100vw;
+    max-width: 500px;
+    padding: 25px;
+    border-radius: 15px;
+}
+.ind-modal-x{
+    position: relative;
+    left: 99.7%;
+    top: -16px;
+    border: black 1px solid;
+    width: 21px;
+    height: 21px;
+    text-align: center;
+    line-height: 19px;
+    border-radius: 48%;
+    font-weight: 600;
+}
+.ind-modal-x:hover{
+    background: #656565;
+    color:white;
+    cursor: pointer;
+}
+#gform_fields_1{
+    max-width: 500px;
+}
+
 /* loading */
 .indsha-loading-background{
 	position: fixed;
