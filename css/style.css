@@ -71,6 +71,19 @@
     max-width: 500px;
 }
 
+/* org-search-form */
+#ind-doc-search-form{
+    display:flex;
+    justify-content: space-between;
+}
+#start-date-search, #end-date-search{
+    max-width: 150px;
+}
+#ind-search-submit{
+    max-height: 40px;
+    margin-top: 20px;
+}
+
 /* loading */
 .indsha-loading-background{
 	position: fixed;

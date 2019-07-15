@@ -260,3 +260,148 @@ function ind_add_event(){
     return $start . $org . $end;
 }
 add_shortcode( 'ind-add-event', 'ind_add_event');
+
+function ind_document_search($atts){
+    $atts = shortcode_atts(
+        array(
+            'num' => 10,
+            'is_board' => false,
+        ), $atts, 'ind-document-search'
+    );
+    $terms = get_terms(
+        array(
+            'taxonomy' => 'document-category',
+            'hide_empty' => flase,
+        ),
+    );
+    if(isset($_POST['cat-search'])){
+        $cat_search = $_POST['cat-search'];
+    }
+    if(isset($_POST['org-search'])){
+        $org_search = $_POST['org-search'];
+    }
+    if(isset($_POST['start-date-search'])){
+        $start_date = $_POST['start-date-search'];
+    }
+    if(isset($_POST['end-date-search'])){
+        $end_date = $_POST['end-date-search'];
+    }
+    if(isset($_POST['keyword-search'])){
+        $keyword = $_POST['keyword-search'];
+    }
+    ob_start();
+    ?>
+    <div class='ind-doc-search-contianer'>
+        <form id='ind-doc-search-form' action="" method="post">
+            <div class='search-form-individual'>
+                <label for='cat-search'>Category</label>
+                <select id="cat-search" class="cat-search" name="cat-search" placeholder="">
+                    <option value="" dissabled selected>Select Category</option>
+        
+    <?php
+    // var_dump($terms);
+    foreach($terms as $key => $value){
+        // var_dump($value);
+        $name = $value->name;
+        $slug = $value->slug;
+        $id = $value->term_id;
+        $selected = '';
+        if($cat_search == $id){
+            $selected = ' selected ';
+        }
+        ?>
+        <option value="<?php echo $id; ?>"<?php echo $selected; ?>><?php echo $name; ?></option>
+        <?php
+    }
+    ?>
+                </select>
+            </div>
+            <div class='search-form-individual'>
+            <label for='org-search'>Organization</label>
+            <select id='org-search' class='org-search' name='org-search' placeholder=''>
+                <option value="" dissabled selected>Select Organization</option>
+    <?php
+    $args = array(
+        'post_type' => 'organization',
+        'posts_per_page' => -1
+    );
+    $query = new WP_Query($args);
+    if($query->have_posts()){
+        while($query->have_posts()){
+            $query->the_post();
+            $title = get_the_title();
+            $id = get_the_id();
+            $selected = '';
+            if($org_search == $id){
+                $selected = ' selected ';
+            }
+            ?>
+            <option value="<?php echo $id; ?>"<?php echo $selected; ?>><?php echo $title; ?></option>
+            <?php
+        }
+    }
+    ?>
+                </select>
+            </div>
+            <div class='search-form-individual'>
+            <label for='start-date-search'>Start Date</label>
+            <input type='date' id='start-date-search' name='start-date-search' value='<?php echo $start_date; ?>'>
+            </div>
+            <div class='search-form-individual'>
+            <label for='end-date-search'>End Date</label>
+            <input type='date' id='end-date-search' name='end-date-search' value='<?php echo $end_date; ?>'>
+            </div>
+            <div class='search-form-individual'>
+            <label for='keyword-search'>Keyword</label>
+            <input type='text' id='keyword-search' name='keyword-search' value='<?php echo $keyword; ?>'>
+            </div>
+            <input type='submit' value='search' id='ind-search-submit' name='submit'>
+        </form>
+    </div>
+    <div class='ind-doc-results-container'>
+        <?php
+        // var_dump(get_post_meta(6073, 'wpcf-document-date', true));
+        // var_dump(strtotime($start_date));
+        $args = array(
+            'post_type' => "document",
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'document-category',
+                    'field' => 'term_id',
+                    'terms' => $cat_search,
+                ),
+            ),
+            'toolset_relationships' => array(
+                'role' => 'child',
+                'related_to' => intval($org_search),
+                'relationship' => 'organization-document',
+            ),
+        );
+        $start = strtotime($start_date);
+        $end = strtotime($end_date);
+        if($start_date){
+            $args['meta_query'] = array(
+                array(
+                    'key' => 'wpcf-document-date',
+                    'value' => array($start, $end),
+                    'compare' => "BETWEEN",
+                    'type' => 'NUMERIC',
+                ),
+            );
+        }
+        var_dump($args);
+        $documents = new WP_Query($args);
+        if($documents->have_posts()){
+            while($documents->have_posts()){
+                $documents->the_post();
+                $id = get_the_id();
+                echo get_post_meta($id, 'wpcf-document-date', true);
+                echo get_the_title();
+            }
+        }
+        ?>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('ind-document-search', 'ind_document_search');

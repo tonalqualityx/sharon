@@ -51,7 +51,7 @@ function indsha_upload_doc_ajax(){
     $doc = indsha_doc_upload();
     // var_dump($doc['url']);
     $date = strtotime($date);
-    var_dump($cat);
+    // var_dump($cat);
     $postarr = array(
         "ID" => 0,
         "post_author" => get_current_user_id(),
