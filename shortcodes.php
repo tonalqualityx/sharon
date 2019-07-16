@@ -272,7 +272,7 @@ function ind_document_search($atts){
         array(
             'taxonomy' => 'document-category',
             'hide_empty' => flase,
-        ),
+        )
     );
     if(isset($_POST['cat-search'])){
         $cat_search = $_POST['cat-search'];
