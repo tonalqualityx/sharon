@@ -21,10 +21,10 @@ function indsha_return_complete_select_ajax(){
             // post minutes
             echo do_shortcode('[ind-add-document]');
             break;
-        // case 3:
-        //     // Upload document unrelated to a meeting
-        //     echo do_shortcode('[ind-add-document]');
-        //     break;
+        case 3:
+        //     // Upload and replace meeting minutes
+            echo do_shortcode('[ind-add-minutes]');
+            break;
     }
     die();
 }
@@ -206,3 +206,47 @@ function indsha_report_a_concern_ajax(){
 }
 add_action( 'wp_ajax_indsha_report_a_concern_ajax', 'indsha_report_a_concern_ajax' );
 add_action('wp_ajax_nopriv_indsha_report_a_concern_ajax', 'indsha_report_a_concern_ajax');
+
+function indsha_get_meetings_ajax(){
+    $security = check_ajax_referer( 'public_nonce', 'nonce');
+    if(!$security){
+        die();
+    }
+    if(isset($_POST['org'])){
+        $org = $_POST['org'];
+    }
+    $args = array(
+        'post_type' => "event",
+        'numberposts' => -1,
+        'toolset_relationships' => array(
+            'role' => 'child',
+            'related_to' => intval($org),
+            'relationship' => 'organization-event',
+        ),
+    );
+    $the_query = new WP_Query($args);
+    if($the_query->have_posts() ){
+        while($the_query->have_posts()){
+            $the_query->the_post();
+            ?>
+                <option value='<?php echo get_the_id(); ?>'><?php echo get_The_title(); ?></option>
+
+            <?php
+        }
+    }
+    echo ob_get_clean();
+    die();
+}
+add_action( 'wp_ajax_indsha_get_meetings_ajax', 'indsha_get_meetings_ajax' );
+add_action('wp_ajax_nopriv_indsha_get_meetings_ajax', 'indsha_get_meetings_ajax');
+
+function indsha_upload_meeting_ajax(){
+    $security = check_ajax_referer( 'public_nonce', 'nonce');
+    if(!$security){
+        die();
+    }
+    var_dump($_POST);
+    die();
+}
+add_action( 'wp_ajax_indsha_upload_meeting_ajax', 'indsha_upload_meeting_ajax' );
+add_action('wp_ajax_nopriv_indsha_upload_meeting_ajax', 'indsha_upload_meeting_ajax');

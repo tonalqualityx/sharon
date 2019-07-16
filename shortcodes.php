@@ -52,7 +52,7 @@ add_shortcode( 'ind-organization-management', 'ind_organization_management' );
 
 function ind_complete_management(){
     $has_orgs = false;
-    $choice = ['Edit Department/Committee Page', 'Schedule a meeting or event', 'Add Document / minutes'];
+    $choice = ['Edit Department/Committee Page', 'Schedule a meeting or event', 'Add Document', 'Add/edit meeting minutes or docs'];
     if(is_user_logged_in() && (current_user_can('administrator') || $has_orgs)){
         // foreach($choice as $key => $value){
             
@@ -434,3 +434,99 @@ function ind_document_search($atts){
     return ob_get_clean();
 }
 add_shortcode('ind-document-search', 'ind_document_search');
+
+function ind_add_minutes(){
+    var_dump($_POST);
+    $has_orgs = false;
+    $orgs_array = [];
+    $args = array(
+        'post_type' => 'organization',
+        'posts_per_page' => -1,
+        'orderby' => 'title',
+        'order' => 'ASC',
+    );
+    $the_query = new WP_Query($args);
+    $user_id = get_current_user_id();
+    if($the_query->have_posts() ){
+        while($the_query->have_posts()){
+            $the_query->the_post();
+            $id = $the_query->post->ID;
+            $slug = $the_query->post->post_name;
+            $option = get_user_meta($user_id, $slug . "_" . $id, true);
+            if($option || current_user_can('administrator')){
+                $has_orgs = true;
+                array_push($orgs_array, $id);
+            }
+        }
+    }
+    $categories = get_terms([
+        'taxonomy' => 'document-category',
+        'hide_empty' => false,
+    ]);
+    // var_dump($categories);
+    
+    ob_start();
+    ?>
+    <div class='upload-meeting-form-container'>
+        <form id='upload-meeting-form-id'>
+            <h2>Upload Document Form</h2>
+            <!-- <label for='upload-doc-title'>Title: 
+                <input id='upload-doc-title' name='upload-doc-title' type='text' class='upload-required'>
+            </label>
+            <label for='upload-doc-date'>Date: 
+                <input id='upload-doc-date' name='upload-doc-date' type='date'>
+            </label> -->
+            <label for='upload-meeting-category'>Category: 
+                <select id='meeting-category' name='meeting-category' class='meeting-cat-dropdown'>
+                    <option value='' dissabled selected>Select a Category</option>
+                    <?php foreach($categories as $key => $value){
+                        $id = $value->term_id;
+                        $name = $value->name;
+                        ?>
+                        <option value='<?php echo $id; ?>'><?php echo $name; ?></option>
+                        <?php
+                    }
+                    ?>
+                </select>
+            </label>
+            <label for='upload-meeting-file'>Upload a PDF file
+                <input type="file" id='upload-meeting-file' class='upload-required' name="my_file_upload[]">
+            </label>
+            <label for='upload-meeting-orgs'>Organization: 
+                <?php
+                $start = ob_get_clean();
+                if(is_user_logged_in() && (current_user_can('administrator') || $has_orgs)){
+                    ob_start();
+                    ?>
+                    <select id="meeting-organization" name="meeting-organization" placeholder="" class="meeting-org-dropdown" required="">
+                        <option value="" dissabled selected>Select Department/Committee</option>
+                        <?php
+                            foreach($orgs_array as $key => $value){
+                                ?>
+                                <option value="<?php echo $value; ?>"><?php echo get_the_title($value); ?></option>
+                                <?php
+                            }
+                        ?>
+                    </select>
+                    <select id="meeting-meeting" name='meeting-meeting' placeholder="" class='meeting-meeting-dropdown' required="">
+                            <option value="" dissabled selected>Select an organization</option>
+                    </select>
+                    
+                    <label id='minutes-override-label' class='hide' for='minutes-override'>Check if replacing the current minutes?
+                        <input type='checkbox' value='1' name='minutes-override' id="minutes-override">
+                    </label>
+                    <?php
+                    $org = ob_get_clean();
+                }
+                ob_start();
+                ?>
+                <br />
+            </label>
+            <a id='meeting-form-save' class='indsha-button' href='#'>Save</a>
+        </form>
+    </div>
+    <?php
+    $end = ob_get_clean();
+    return $start . $org . $end;
+}
+add_shortcode( 'ind-add-minutes', 'ind_add_minutes');

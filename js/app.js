@@ -104,7 +104,6 @@ jQuery(document).ready(function( $ ) {
 
     $('body').on('click', '#event-form-save', function(e){
         e.preventDefault();
-        indshaAddLoading();
         
         $('.required-form-text').each(function(){
             $(this).remove();
@@ -117,6 +116,7 @@ jQuery(document).ready(function( $ ) {
         if($('.required-form-text').length > 0 || $('body').find('.doc-upload-warning').length > 0){
             alert('You must fill out all required fields and follow the upload requirements.');
         }else{
+            indshaAddLoading();
             var agenda = $('#event-doc-agenda').prop('files')[0];
             var file_array = [];
             var fd = new FormData();
@@ -151,10 +151,10 @@ jQuery(document).ready(function( $ ) {
                 type: 'POST',
                 success: function(response){
                     console.log(response);
+                    indshaDelLoading();
                 }
             });        
             console.log(agenda);
-            indshaDelLoading();
         }
         
     })
@@ -171,6 +171,82 @@ jQuery(document).ready(function( $ ) {
             $(this).parent().append('<div class="doc-upload-warning">This file type must be a PDF</div>');
         }
     });
+
+    $('body').on('change', '#meeting-organization', function(){
+        indshaAddLoading();
+        var org = $(this).val();
+        $.ajax({
+            url: indsha_ajax.ajaxurl,
+            dataType: 'text',
+            method: 'POST',
+            data: {
+                action: 'indsha_get_meetings_ajax',
+                nonce: indsha_ajax.sharon_nonce,
+                org: org,
+            },
+            type: 'POST',
+            success: function(e){
+                console.log(e);
+
+                $('#meeting-meeting').empty();
+                $('#meeting-meeting').append('<option value="" dissabled="" selected="">Select an event</option>' + e);
+                indshaDelLoading();
+            }
+        });
+    })
+
+    $('body').on('change', '#meeting-category', function(){
+        if($(this).val() == 122){
+            console.log($(this).val());
+            $("#minutes-override-label").removeClass('hide');
+        }else{
+            if(!$('#minutes-override-label').hasClass('hide')){
+                $('#minutes-override-label').addClass('hide');
+            }
+        }
+    });
+
+    $('body').on('click', '#meeting-form-save', function(e){
+        e.preventDefault();
+        $('.required-form-text').each(function(){
+            $(this).remove();
+        })
+        $('.upload-required').each(function(){
+            if($(this).val() == ""){
+                $(this).parent().append('<div class="required-form-text">This field is required</div>');
+            }
+        })
+        if($('body').find('.meeting-upload-warning').length > 0 || $('.required-form-text').length > 0){
+            alert('You must fill out all required fields and follow the upload requirements.');
+        }else{
+            indshaAddLoading();
+            var fd = new FormData();
+            var file = $('#upload-meeting-file').prop('files')[0];
+            fd.append('file', file);
+            // fd.append('form_data', data);
+            fd.append('override', $('#minutes-override').val());
+            fd.append('meeting', $('#meeting-meeting').val());
+            fd.append('org', $('#meeting-organization').val());
+            fd.append('cat', $('#meeting-category').val());
+            fd.append('nonce', indsha_ajax.sharon_nonce);
+            fd.append('action', 'indsha_upload_meeting_ajax');
+            console.log(fd);
+            $.ajax({
+                url: indsha_ajax.ajaxurl,
+                method: 'POST',
+                contentType: false,
+                processData: false,
+                data: fd,
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+            indshaDelLoading();
+        }
+    })
+
+
     // report a concern menu button
     $('body').on('click', '#menu-item-4703', function(e){
         e.preventDefault();
@@ -210,10 +286,10 @@ function indshaAddLoading(){
     var primary='white';
     var secondary='white';
     var background='indsha-loading-background';
-    jQuery(location).append("<div class='indsha-loading-background'><div class=" + background + "><div id='indsha-loading-icon'><svg class='ind-image' width='100' height='100'><path d='M5,50 a1,1 0 0,0 90,0' fill='none' stroke-opacity='0.9' stroke='" + primary + "' stroke-width='9'/></svg><svg class='ind-image-rev' width='100' height='100'><path d='M2,50 a1,1 0 0,1 96,0' fill='none' stroke-opacity='0.7' stroke='" + secondary + "' stroke-width='3.6'/></svg><svg class='ind-image-rev-2' width='100' height='100'><path d='M10,50 a40,40 0 0,0  40,40' stroke-width='6' stroke-opacity='0.7' stroke='" + secondary + "' fill='none'</></svg></div></div></div>");
+    jQuery(location).append("<div class='indsha-loading-background-container'><div class=" + background + "><div id='indsha-loading-icon'><svg class='ind-image' width='100' height='100'><path d='M5,50 a1,1 0 0,0 90,0' fill='none' stroke-opacity='0.9' stroke='" + primary + "' stroke-width='9'/></svg><svg class='ind-image-rev' width='100' height='100'><path d='M2,50 a1,1 0 0,1 96,0' fill='none' stroke-opacity='0.7' stroke='" + secondary + "' stroke-width='3.6'/></svg><svg class='ind-image-rev-2' width='100' height='100'><path d='M10,50 a40,40 0 0,0  40,40' stroke-width='6' stroke-opacity='0.7' stroke='" + secondary + "' fill='none'</></svg></div></div></div>");
 }
 function indshaDelLoading(){
-    jQuery('.indsha-loading-background').remove();
+    jQuery('.indsha-loading-background-container').remove();
 }
 
 // start of stand alone functions
