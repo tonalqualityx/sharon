@@ -104,7 +104,7 @@ jQuery(document).ready(function( $ ) {
 
     $('body').on('click', '#event-form-save', function(e){
         e.preventDefault();
-
+        indshaAddLoading();
         
         $('.required-form-text').each(function(){
             $(this).remove();
@@ -154,6 +154,7 @@ jQuery(document).ready(function( $ ) {
                 }
             });        
             console.log(agenda);
+            indshaDelLoading();
         }
         
     })

@@ -364,6 +364,7 @@ function ind_document_search($atts){
         // var_dump(strtotime($start_date));
         $args = array(
             'post_type' => "document",
+            'numberposts' => -1,
             'tax_query' => array(
                 array(
                     'taxonomy' => 'document-category',
@@ -379,7 +380,7 @@ function ind_document_search($atts){
         );
         $start = strtotime($start_date);
         $end = strtotime($end_date);
-        if($start_date){
+        if($start_date && $end_date){
             $args['meta_query'] = array(
                 array(
                     'key' => 'wpcf-document-date',
@@ -388,15 +389,43 @@ function ind_document_search($atts){
                     'type' => 'NUMERIC',
                 ),
             );
+        }else if($start_date){
+            $args['meta_query'] = array(
+                array(
+                    'key' => 'wpcf-document-date',
+                    'value' => $start,
+                    'compare' => ">=",
+                    'type' => 'NUMERIC',
+                ),
+            ); 
+        }else if($end_date){
+            $args['meta_query'] = array(
+                array(
+                    'key' => 'wpcf-document-date',
+                    'value' => $end,
+                    'compare' => "<=",
+                    'type' => 'NUMERIC',
+                ),
+            );
         }
-        var_dump($args);
-        $documents = new WP_Query($args);
+        if($keyword){
+            $args['s'] = $keyword;
+            $documents = new WP_Query();
+            $documents->parse_query($args);
+            relevanssi_do_query($documents);
+        }else{
+            $documents = new WP_Query($args);
+        }
+        // var_dump($args);
+        // var_dump($documents);
         if($documents->have_posts()){
+            // var_dump('we have something here');
             while($documents->have_posts()){
                 $documents->the_post();
                 $id = get_the_id();
-                echo get_post_meta($id, 'wpcf-document-date', true);
+                var_dump(get_post_meta($id));
                 echo get_the_title();
+                var_dump("<br /><br />");
             }
         }
         ?>
