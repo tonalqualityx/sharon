@@ -205,7 +205,24 @@ function ind_add_event(){
             }
         }
     }
+    $terms = get_terms( array(
+        'taxonomy' => 'document-category',
+        'hide_empty' => false,
+    ) );
     ob_start();
+    ?>
+    <div id='get_current_terms' class='hide'>
+    <option value='' dissabled selected>Select a category</option>
+    <?php
+    foreach($terms as $key => $value){
+        ?>
+        <option value='<?php echo $value->term_id; ?>'><?php echo $value->name; ?></option>
+        <?php
+    }
+    ?>
+    </div>
+    <?php
+    // var_dump($terms);
     ?>
     <div class='event-doc-form-container'>
         <form id='event-doc-form-id'>
@@ -513,7 +530,7 @@ function ind_add_minutes(){
                     </select>
                     
                     <label id='minutes-override-label' class='hide' for='minutes-override'>Check if replacing the current minutes?
-                        <input type='checkbox' value='1' name='minutes-override' id="minutes-override">
+                        <input type='checkbox' value='0' name='minutes-override' id="minutes-override">
                     </label>
                     <?php
                     $org = ob_get_clean();

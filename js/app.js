@@ -99,12 +99,18 @@ jQuery(document).ready(function( $ ) {
 
     $('body').on('click', '.event-add-doc-btn', function(e){
         e.preventDefault();
-        $('.event-doc-container').append("<span class='event-doc-file-title-text'>Title: </span><input type='text' class='event-doc-file-title'><input type='file' class='event-doc-file' name='my_file_upload[]'>");
+        var terms = $('#get_current_terms').html();
+        console.log(terms);
+        $('.event-doc-container').append("<span class='ind-add-doc-container'><span class='event-doc-file-title-text'>Title: </span><input type='text' class='event-doc-file-title'><input type='file' class='event-doc-file' name='my_file_upload[]'><select name='my_file_cat[]' class='my-file-cat doc-org-dropdown'>" + terms + "</select><a href='#' class='remove-add-document red-text'>Remove</a></span>");
+    })
+
+    $('body').on('click', '.remove-add-document', function(e){
+        e.preventDefault();
+        $(this).parent().remove();
     })
 
     $('body').on('click', '#event-form-save', function(e){
         e.preventDefault();
-        
         $('.required-form-text').each(function(){
             $(this).remove();
         })
@@ -133,14 +139,19 @@ jQuery(document).ready(function( $ ) {
                 title_array.push($(this).prev().val());
 
             });
-            console.log(title_array);
+            var cat_array = [];
+            $('.my-file-cat').each(function(){
+                cat_array.push($(this).val());
+            })
+            console.log(tinymce.editors['event-doc-content'].getContent());
             fd.append('agenda', agenda);
             // fd.append('file_array', file_array);
             fd.append('org', $('#doc-organization').val());
             fd.append('date', $('#event-doc-date').val());
-            fd.append('content', $('#event-doc-content').val());
-            fd.append('special', $('#event-doc-special').val());
+            fd.append('content', tinymce.editors['event-doc-content'].getContent());
+            fd.append('special', $('#event-doc-special').is(':checked'));
             fd.append('nonce', indsha_ajax.sharon_nonce);
+            fd.append('cat', cat_array);
             fd.append('action', 'indsha_save_event_ajax');
             $.ajax({
                 url: indsha_ajax.ajaxurl,
@@ -224,13 +235,13 @@ jQuery(document).ready(function( $ ) {
             var file = $('#upload-meeting-file').prop('files')[0];
             fd.append('file', file);
             // fd.append('form_data', data);
-            fd.append('override', $('#minutes-override').val());
+            fd.append('override', $('#minutes-override').is(":checked"));
             fd.append('meeting', $('#meeting-meeting').val());
             fd.append('org', $('#meeting-organization').val());
             fd.append('cat', $('#meeting-category').val());
             fd.append('nonce', indsha_ajax.sharon_nonce);
             fd.append('action', 'indsha_upload_meeting_ajax');
-            console.log(fd);
+            // console.log($('#minutes-override').is(':checked'));
             $.ajax({
                 url: indsha_ajax.ajaxurl,
                 method: 'POST',

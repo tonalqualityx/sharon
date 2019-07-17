@@ -5,7 +5,7 @@
     margin-top: 10px;
     margin-bottom: 25px;
 }
-.doc-upload-warning, .meeting-upload-warning, .required-form-text{
+.doc-upload-warning, .meeting-upload-warning, .required-form-text, .red-text{
     color: red;
 }
 .event-doc-file-title-text{
