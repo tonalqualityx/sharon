@@ -282,7 +282,7 @@ function ind_document_search($atts){
     $atts = shortcode_atts(
         array(
             'num' => 10,
-            'is_board' => false,
+            'board' => null,
         ), $atts, 'ind-document-search'
     );
     $terms = get_terms(
@@ -305,6 +305,9 @@ function ind_document_search($atts){
     }
     if(isset($_POST['keyword-search'])){
         $keyword = $_POST['keyword-search'];
+    }
+    if(isset($_POST['document-search-validation'])){
+        $validation = $_POST['document-search-validation'];
     }
     ob_start();
     ?>
@@ -342,6 +345,7 @@ function ind_document_search($atts){
         'post_type' => 'organization',
         'posts_per_page' => -1
     );
+    
     $query = new WP_Query($args);
     if($query->have_posts()){
         while($query->have_posts()){
@@ -349,7 +353,11 @@ function ind_document_search($atts){
             $title = get_the_title();
             $id = get_the_id();
             $selected = '';
-            if($org_search == $id){
+            if($atts['board'] && $validation != 'yes'){
+                if($id == $atts['board']){
+                    $selected = ' selected ';
+                }
+            }else if($org_search == $id){
                 $selected = ' selected ';
             }
             ?>
@@ -372,88 +380,143 @@ function ind_document_search($atts){
             <label for='keyword-search'>Keyword</label>
             <input type='text' id='keyword-search' name='keyword-search' value='<?php echo $keyword; ?>'>
             </div>
+            <input type='hidden' name='document-search-validation' value='yes'>
             <input type='submit' value='search' id='ind-search-submit' name='submit'>
         </form>
     </div>
     <div class='ind-doc-results-container'>
         <?php
-        // var_dump(get_post_meta(6073, 'wpcf-document-date', true));
-        // var_dump(strtotime($start_date));
-        $args = array(
-            'post_type' => "document",
-            'numberposts' => -1,
-            'tax_query' => array(
-                array(
-                    'taxonomy' => 'document-category',
-                    'field' => 'term_id',
-                    'terms' => $cat_search,
-                ),
-            ),
-            'toolset_relationships' => array(
-                'role' => 'child',
-                'related_to' => intval($org_search),
-                'relationship' => 'organization-document',
-            ),
-        );
-        $start = strtotime($start_date);
-        $end = strtotime($end_date);
-        if($start_date && $end_date){
-            $args['meta_query'] = array(
-                array(
-                    'key' => 'wpcf-document-date',
-                    'value' => array($start, $end),
-                    'compare' => "BETWEEN",
-                    'type' => 'NUMERIC',
-                ),
+        // var_dump($_POST);
+        if(isset($_POST['document-search-validation'])){
+
+        
+            // var_dump(get_post_meta(6073, 'wpcf-document-date', true));
+            // var_dump(strtotime($start_date));
+            $args = array(
+                'post_type' => "document",
+                'numberposts' => -1,            
             );
-        }else if($start_date){
-            $args['meta_query'] = array(
-                array(
-                    'key' => 'wpcf-document-date',
-                    'value' => $start,
-                    'compare' => ">=",
-                    'type' => 'NUMERIC',
-                ),
-            ); 
-        }else if($end_date){
-            $args['meta_query'] = array(
-                array(
-                    'key' => 'wpcf-document-date',
-                    'value' => $end,
-                    'compare' => "<=",
-                    'type' => 'NUMERIC',
-                ),
-            );
-        }
-        if($keyword){
-            $args['s'] = $keyword;
-            $documents = new WP_Query();
-            $documents->parse_query($args);
-            relevanssi_do_query($documents);
-        }else{
-            $documents = new WP_Query($args);
-        }
-        // var_dump($args);
-        // var_dump($documents);
-        if($documents->have_posts()){
-            // var_dump('we have something here');
-            while($documents->have_posts()){
-                $documents->the_post();
-                $id = get_the_id();
-                var_dump(get_post_meta($id));
-                echo get_the_title();
-                var_dump("<br /><br />");
+            if($cat_search){
+                $args['tax_query'] = array(
+                    array(
+                        'taxonomy' => 'document-category',
+                        'field' => 'term_id',
+                        'terms' => $cat_search,
+                    ),
+                );
             }
+            if($org_search){
+                $args['toolset_relationships'] = array(
+                    'role' => 'child',
+                    'related_to' => $org_search,
+                    'relationship' => 'organization-document',
+                );
+            }
+            $start = strtotime($start_date);
+            $end = strtotime($end_date);
+            if($start_date && $end_date){
+                $args['meta_query'] = array(
+                    array(
+                        'key' => 'wpcf-document-date',
+                        'value' => array($start, $end),
+                        'compare' => "BETWEEN",
+                        'type' => 'NUMERIC',
+                    ),
+                );
+            }else if($start_date){
+                $args['meta_query'] = array(
+                    array(
+                        'key' => 'wpcf-document-date',
+                        'value' => $start,
+                        'compare' => ">=",
+                        'type' => 'NUMERIC',
+                    ),
+                ); 
+            }else if($end_date){
+                $args['meta_query'] = array(
+                    array(
+                        'key' => 'wpcf-document-date',
+                        'value' => $end,
+                        'compare' => "<=",
+                        'type' => 'NUMERIC',
+                    ),
+                );
+            }
+            if($keyword){
+                $search = new WP_Query($args);
+                $array_of_ids = array();
+                foreach($search->posts as $key => $value){
+                    // $array_of_ids[] = $value->ID;
+                    $attatch_args = array('post_parent' => $value->ID,
+                        'numberposts' => -1,
+                        'post_type' => 'attachment',    
+                    );
+                    $attachments = get_children($attatch_args);
+                    if($attachments){
+                        foreach($attachments as $data => $pdf){
+                            array_push($array_of_ids, $pdf->ID);
+                        }
+                    }
+                }
+                wp_reset_postdata();
+                if($array_of_ids){
+                    $new_args = array(
+                        's' => $keyword,
+                        'post_type' => 'attachment',
+                        'post__in' => $array_of_ids,
+                    );
+                    $documents = new WP_Query();
+                    $documents->parse_query($new_args);
+                    relevanssi_do_query($documents);
+                }
+                // $search_args = array(
+                //     's' => $keyword,
+                //     'post_type' => 'attachment',
+                //     'post__in' => $array_of_ids,
+                // );
+                // $attachments = new WP_Query();
+                // $attachments->parse_query($search_args);
+                // relevanssi_do_query($attachments);
+                
+                
+                // var_dump($search->posts);
+            }else{
+                $documents = new WP_Query($args);
+            }
+            ?>
+            <div class='document-search-result-container'>
+            <?php
+            if($documents->have_posts()){
+                while($documents->have_posts()){
+                    $documents->the_post();
+                    $id = get_the_id();
+                    // var_dump(get_post_meta($id));
+                    if($keyword){
+                        $link = wp_upload_dir()['baseurl'] . '/' . get_post_meta($id, '_wp_attached_file', true);
+                    }else{
+                        $link = get_post_meta($id, 'wpcf-document-file', true);
+                    }
+                    ?>
+                    <div class='document-search-result-single'>
+                        <a href='<?php echo $link; ?>' target="_blank"><?php echo get_the_title(wp_get_post_parent_id($id)); ?></a>
+                    </div>
+                    <?php
+                }
+            }
+            ?>
+            </div>
+            <?php
         }
         ?>
     </div>
     <?php
+    wp_reset_postdata();
     return ob_get_clean();
 }
 add_shortcode('ind-document-search', 'ind_document_search');
 
 function ind_add_minutes(){
-    var_dump($_POST);
+
     $has_orgs = false;
     $orgs_array = [];
     $args = array(

@@ -168,7 +168,6 @@ function indsha_save_event_ajax(){
     if($doc_id){
         $connection = toolset_connect_posts('document-event', $doc_id, $event_id);
     }
-    var_dump($doc_id_array);
     if(!empty($doc_id_array)){
         foreach($doc_id_array as $key => $value){
             toolset_connect_posts('document-event', $value, $event_id);
@@ -282,6 +281,9 @@ function indsha_upload_meeting_ajax(){
         if($the_query->have_posts()){
             while($the_query->have_posts()){
                 $the_query->the_post();
+                $url = get_post_meta(get_the_ID(), 'wpcf-document-file', true);
+                $id = attachment_url_to_postid($url);
+                $delete = wp_delete_attachment($id);
                 wp_delete_post(get_the_ID());
             }
         }
@@ -300,9 +302,18 @@ function indsha_upload_meeting_ajax(){
         ),
     );
     $doc_id = wp_insert_post($postarr);
+    $attachment = array(
+        'guid'           => $wp_upload_dir['url'] . '/' . basename( $doc['file'] ), 
+        'post_mime_type' => $doc['type'],
+        'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $doc['file'] ) ),
+        'post_content'   => '',
+        'post_status'    => 'inherit'
+    );
+    $attach_id = wp_insert_attachment( $attachment, $doc['file'], $doc_id);
     wp_set_object_terms($doc_id, intval($cat), 'document-category');
     toolset_connect_posts('organization-document', $org, $doc_id);
     toolset_connect_posts('document-event', $doc_id, $meeting);
+
 
     die();
 }

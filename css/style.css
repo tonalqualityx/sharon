@@ -75,6 +75,7 @@
 #ind-doc-search-form{
     display:flex;
     justify-content: space-between;
+    flex-direction: column;
 }
 #start-date-search, #end-date-search{
     max-width: 150px;
@@ -137,3 +138,10 @@
 @-moz-keyframes revspin { 100% { -moz-transform: rotate(-360deg); } }
 @-webkit-keyframes revspin { 100% { -webkit-transform: rotate(-360deg); } }
 @keyframes revspin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
+
+/* desktop */
+@media only screen and (min-width: 1025px){
+    #ind-doc-search-form{
+        flex-direction: row;
+    }
+}
