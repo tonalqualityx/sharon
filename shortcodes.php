@@ -302,6 +302,9 @@ function ind_document_search($atts){
     }
     if(isset($_POST['end-date-search'])){
         $end_date = $_POST['end-date-search'];
+        if($end_date == $start_date){
+            $end_date = date("Y-m-d", strtotime($end_date. ' + 1 days'));
+        }
     }
     if(isset($_POST['keyword-search'])){
         $keyword = $_POST['keyword-search'];
