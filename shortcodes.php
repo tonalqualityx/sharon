@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') or die('No script kiddies please!'); //For security
+
 function ind_organization_management(){
     $has_orgs = false;
     $orgs_array = [];
@@ -613,3 +615,16 @@ function ind_add_minutes(){
     return $start . $org . $end;
 }
 add_shortcode( 'ind-add-minutes', 'ind_add_minutes');
+
+function indsh_custom_menu(){
+    ob_start();
+        wp_nav_menu(array(
+            'theme_location' => 'primary',
+            'menu_class'     => 'primary-menu',
+            'walker'         => new ind_Walker(),
+        ));
+    
+    return ob_get_clean();
+}
+
+add_shortcode( 'ind-menu', 'indsh_custom_menu');

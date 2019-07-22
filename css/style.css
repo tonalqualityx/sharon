@@ -121,6 +121,97 @@
  	-moz-animation:revspin 5s linear infinite;
  	animation:revspin 5s linear infinite;
 }
+
+
+/**********
+MENU STYLES
+**********/
+
+#menu-global-menu {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin: 0;
+    height: 100%;
+}
+
+#menu-global-menu > li {
+    padding: 35px 25px;
+    font-size: 1.5em;
+    line-height: 1;
+    position: static;
+    background: white;
+    transition: background 0.35s ease-in-out;
+}
+
+#menu-global-menu > li:hover {
+    background: #efefef;
+    cursor: pointer;
+}
+
+#menu-global-menu ul {
+    margin: 0;
+    list-style: none;
+}
+
+#menu-global-menu .alert-button {
+    background: #DE5000;
+    margin: 0;
+    justify-self: flex-end;
+    float: none;
+    margin-left: auto;
+}
+
+#menu-global-menu .alert-button:hover {
+    background: #BE3000;
+}
+
+#menu-global-menu > li > ul {
+    display: none;
+    /* display: flex; */
+    padding: 15px;
+    position: absolute;
+    background: white;
+    left: 0;
+    top: 98%;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: -15px;
+    line-height: 1.35;
+    transition: transform 0.35s ease-in-out;
+}
+
+/* #menu-global-menu > li > ul:first-of-type {
+    display: flex;
+} */
+
+#menu-global-menu > li:hover > ul {
+    display: flex;
+    margin-bottom: 0;
+    opacity: 1;
+    z-index: 99;
+}
+
+#menu-global-menu > li > ul > li {
+    /* text-decoration: underline; */
+    font-weight: 600;
+    font-size: 0.8em;
+    min-width: 30%;
+}
+
+#menu-global-menu > li > ul > li > ul{
+    display: block;
+}
+
+#menu-global-menu > li > ul > li > ul > li{
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 0.8em;
+}
+
 @keyframes ind-fade {
 	0% {opacity: 0;}
 	100%{opacity: 1;} }

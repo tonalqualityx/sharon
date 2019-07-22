@@ -19,6 +19,7 @@ require_once(IND_ROOT_PATH . "/functions.php");
 require_once(IND_ROOT_PATH . "/admin-functions.php");
 require_once(IND_ROOT_PATH . "/ajax-functions.php");
 require_once(IND_ROOT_PATH . "/shortcodes.php");
+require_once(IND_ROOT_PATH . "/menu/main-nav.php");
 
 function indsha_enqueue(){
     wp_enqueue_style('indsha-style', IND_ROOT_URL . 'css/style.css');
