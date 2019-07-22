@@ -259,7 +259,7 @@ jQuery(document).ready(function( $ ) {
 
 
     // report a concern menu button
-    $('body').on('click', '#menu-item-4703', function(e){
+    $('body').on('click', '#menu-global-menu .alert-button', function(e){
         e.preventDefault();
         indshaAddLoading();
         $.ajax({
