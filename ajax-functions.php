@@ -97,7 +97,7 @@ function indsha_save_event_ajax(){
         $cat_str = $_POST['cat'];
         $cat_array = explode(",", $cat_str);
     }
-    if($special){
+    if($special == 'yes'){
         $special = "Special ";
     }else{
         $special = '';
