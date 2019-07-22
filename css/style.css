@@ -192,7 +192,6 @@ MENU STYLES
     display: flex;
     margin-bottom: 0;
     opacity: 1;
-    z-index: 99;
 }
 
 #menu-global-menu > li > ul > li {
