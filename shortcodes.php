@@ -628,3 +628,31 @@ function indsh_custom_menu(){
 }
 
 add_shortcode( 'ind-menu', 'indsh_custom_menu');
+
+
+function fix_post_titles(){
+    $args = array(
+        'post_type' => 'document',
+        'posts_per_page' => -1,
+    );
+    $query = new WP_Query($args);
+    if($query->have_posts()){
+        while($query->have_posts()){
+            $query->the_post();
+            $title = get_the_title();
+            
+            preg_match('/[a-zA-Z]+[.,-]? \d+[.,-]? \d{4}/', $title, $match);
+            // var_dump($match);
+            $new_date = str_replace(str_split('\.,-'), "", $match[0]);
+            $explode = explode(" ", $new_date);
+            $new_date = $explode[0] . " " . $explode[1] . ", " . $explode[2];
+            $new_date = strtotime($new_date);
+            update_post_meta(get_the_id(), 'wpcf-document-date', $new_date);
+            $new_title = str_replace($match[0], "", $title);
+            if(count($new_date) > 5){
+                break;
+            }
+        }
+    }
+}
+add_shortcode('ind-fix-post-titles', 'fix_post_titles');
