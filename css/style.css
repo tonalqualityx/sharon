@@ -22,7 +22,11 @@
 #event-doc-agenda, .event-doc-file{
     max-width: 100%;
 }
-
+.ind-report-concern-mobile{
+    color: white;
+    padding: 5px 10px;
+    float: right;
+}
 /* modal */
 .ind-modal-bg{
     position: fixed;
