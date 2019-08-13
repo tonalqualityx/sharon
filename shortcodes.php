@@ -656,3 +656,12 @@ function fix_post_titles(){
     }
 }
 add_shortcode('ind-fix-post-titles', 'fix_post_titles');
+
+function ind_page_title(){
+    ob_start();
+    ?>
+    <h1 class='ind-page-title'><?php the_title(); ?></h1>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('ind-page-title', 'ind_page_title');
