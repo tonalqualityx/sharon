@@ -16,3 +16,55 @@ function rlv_add_filenames($content, $post) {
     return $content;
 }
 
+
+function ind_display_notice($notice = false){
+    $today = strtotime('now');
+    $args = array(
+        'post_type' => 'notice',
+        'meta_query' => array(
+            array(
+                'key' => 'wpcf-experation',
+                'value' => $today,
+                'compare' => '>=',
+                'type' => 'number',
+            ),
+        ),
+    );
+    // var_dump(strtotime('now'));
+
+    $notices = new WP_Query($args);
+    $notice_array = [];
+    $alert_array = [];
+    if($notices->have_posts()){
+        while($notices->have_posts()){
+            $notices->the_post();
+            $title = get_the_title();
+            $id = get_the_id();
+            $content = get_the_content();
+            $alert = get_post_meta($id, 'wpcf-alert', true);
+            if($alert){
+                $alert_array[] = $content;
+            }else{
+                $notice_array[] = array('title' => $title, 'content' => $content);
+            }
+        }
+    }
+    ?>
+    <script>
+    <?php
+        echo 'var alert_array = ' . json_encode($alert_array) . ';';
+        ?>
+        jQuery(document).ready(function( $ ) {
+            $(alert_array).each(function(index, value){
+                console.log(value);
+                $('body').prepend("<div class='alert-bg'><div class='alert-container'><span class='alert-header'>ALERT: </span><span class='alert-text'>" + value + "</span></div></div>");
+            })
+            
+        });
+        </script>
+    <?php
+    if($notice == true){
+        return $notice_array;
+    }
+}
+add_action('wp_footer', 'ind_display_notice');

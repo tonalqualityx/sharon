@@ -38,7 +38,7 @@
     position: absolute;
     width: 100vw;
     height: 100vh;
-    z-index: 999999;
+    z-index: 9999999;
 }
 .ind-inside-modal-container{
     position: absolute;
@@ -221,6 +221,27 @@ MENU STYLES
     text-decoration: none;
     font-weight: 400;
     font-size: 0.8em;
+}
+/******************* 
+Alert Styles
+********************/
+.alert-header{
+    font-weight: 600;
+    color:white;
+}
+.alert-text{
+    color:white;
+}
+.alert-bg{
+    background: #960000;
+}
+.alert-container{
+    max-width: 1200px;
+    width:100%;
+    margin: auto;
+}
+.alert-bg:nth-child(odd){
+    background: red;
 }
 
 @keyframes ind-fade {
