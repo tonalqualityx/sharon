@@ -290,6 +290,12 @@ jQuery(document).ready(function( $ ) {
     $('body').on('click', '.ind-modal-bg', function(){
         $('.ind-modal-container').remove();
     });
+
+    $('body').on('click', '.notice-button', function(e){
+        e.preventDefault();
+        var content = $(this).data('content');
+        $('body').prepend("<div class='ind-modal-container'><div class='ind-modal-inside-container'><div class='ind-modal-x'>X</div><h3 class='ind-notice-header'>Notice</h3><p>" + content + "</p></div><div class='ind-modal-bg'></div></div>")
+    });
 });
 
 function indshaAddLoading(){

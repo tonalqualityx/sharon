@@ -665,3 +665,24 @@ function ind_page_title(){
     return ob_get_clean();
 }
 add_shortcode('ind-page-title', 'ind_page_title');
+
+function ind_notifications(){
+    $notification_array = ind_display_notice(true);
+    // var_dump($notification_array[0]['title']);
+    if(isset($notification_array[0])){
+        ob_start();
+        foreach($notification_array as $key => $value){
+            $title = $value['title'];
+            $content = $value['content'];
+            ?>
+            <a href="#" class='notice-button' data-content='<?php echo $content; ?>'><?php echo $title; ?></a>
+            <?php
+        }
+        $return = ob_get_clean();
+        return $return;
+    }else{
+        $return = "<p>There are currently no notices.</p>";
+        return $return;
+    }
+}
+add_shortcode('ind-notifications', 'ind_notifications');

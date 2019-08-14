@@ -49,21 +49,22 @@ function ind_display_notice($notice = false){
             }
         }
     }
-    ?>
-    <script>
-    <?php
-        echo 'var alert_array = ' . json_encode($alert_array) . ';';
+    if($notice == false){
         ?>
-        jQuery(document).ready(function( $ ) {
-            $(alert_array).each(function(index, value){
-                console.log(value);
-                $('body').prepend("<div class='alert-bg'><div class='alert-container'><span class='alert-header'>ALERT: </span><span class='alert-text'>" + value + "</span></div></div>");
-            })
-            
-        });
-        </script>
-    <?php
-    if($notice == true){
+        <script>
+        <?php
+            echo 'var alert_array = ' . json_encode($alert_array) . ';';
+            ?>
+            jQuery(document).ready(function( $ ) {
+                $(alert_array).each(function(index, value){
+                    console.log(value);
+                    $('body').prepend("<div class='alert-bg'><div class='alert-container'><span class='alert-header'>ALERT: </span><span class='alert-text'>" + value + "</span></div></div>");
+                })
+                
+            });
+            </script>
+        <?php
+    }else{
         return $notice_array;
     }
 }

@@ -40,7 +40,7 @@
     height: 100vh;
     z-index: 9999999;
 }
-.ind-inside-modal-container{
+.ind-inside-modal-container, .ind-modal-inside-container{
     position: absolute;
     background: white;
     z-index: 1;
@@ -53,6 +53,21 @@
     max-width: 500px;
     padding: 25px;
     border-radius: 15px;
+}
+
+.ind-modal-inside-container{
+    position:fixed;
+    top: 50%;
+    transform:translateY(-50%);
+}
+
+.ind-notice-header{
+    color: red;
+    font-weight: 600;
+    font-size: 1.5em;
+    margin-top: 0;
+    border-bottom: red 1px solid;
+    margin-bottom: 10px;
 }
 .ind-modal-x{
     position: relative;
