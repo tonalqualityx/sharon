@@ -23,7 +23,7 @@ function ind_display_notice($notice = false){
         'post_type' => 'notice',
         'meta_query' => array(
             array(
-                'key' => 'wpcf-experation',
+                'key' => 'wpcf-expiration',
                 'value' => $today,
                 'compare' => '>=',
                 'type' => 'number',
@@ -69,3 +69,17 @@ function ind_display_notice($notice = false){
     }
 }
 add_action('wp_footer', 'ind_display_notice');
+
+function org_header_hero(){
+    $default_img = home_url() . '/wp-content/uploads/2019/05/sharon-vt-ATEF6D.jpg';
+    if(has_post_thumbnail()){
+        $default_img = get_the_post_thumbnail_url(get_the_id(), 'full');
+    }
+    ob_start();
+    ?>
+    <div class='org-header-hero' style="background-image:url('<?php echo $default_img; ?>')"></div>
+    <div class='org-header-hero-text'><div class='org-header-hero-second-container'><?php echo do_shortcode( "[ind-page-title]"); ?></div></div>
+    <?php
+    $return = ob_get_clean();
+    return $return;
+}

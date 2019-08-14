@@ -660,7 +660,7 @@ add_shortcode('ind-fix-post-titles', 'fix_post_titles');
 function ind_page_title(){
     ob_start();
     ?>
-    <h1 class='ind-page-title'><?php the_title(); ?></h1>
+    <h1 class='ind-page-title'><?php echo get_the_title(); ?></h1>
     <?php
     return ob_get_clean();
 }
@@ -686,3 +686,8 @@ function ind_notifications(){
     }
 }
 add_shortcode('ind-notifications', 'ind_notifications');
+
+function ind_header_hero(){
+    return org_header_hero();
+}
+add_shortcode('ind-header-hero', 'ind_header_hero');
