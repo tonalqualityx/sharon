@@ -691,3 +691,33 @@ function ind_header_hero(){
     return org_header_hero();
 }
 add_shortcode('ind-header-hero', 'ind_header_hero');
+
+function ind_upcoming_events(){
+    $args = array(
+        'post_type' => 'event',
+        'posts_per_page' => '5',
+        'meta_key' => 'wpcf-event-date',
+        'orderby' => 'meta_value_num',
+        'order' => 'DESC',
+    );
+    ob_start();
+    $events = new WP_Query($args);
+    if($events->have_posts()){
+        while($events->have_posts()){
+            $events->the_post();
+            $link = get_the_permalink();
+            ?>
+            <p class='upcoming-events-list'><a href='<?php echo $link; ?>'><?php echo get_the_title(); ?></a></p>
+            <?php
+        }
+    }
+    wp_reset_postdata();
+    $return = ob_get_clean();
+    return $return;
+}
+add_shortcode('ind-upcoming-events', 'ind_upcoming_events');
+
+function copy_date(){
+    return date('Y');
+}
+add_shortcode('copy-date', 'copy_date');
