@@ -74,14 +74,15 @@ function ind_complete_management(){
             <a id='complete-form-go' data-url='<?php echo home_url(); ?>/complete-management-form?id=' href='#'>Go</a>
             <div class='complete-management-form-container'></div>
             <?php
-            $form = ob_get_clean();
-            echo $form;
+            $return = ob_get_clean();
+            // echo $form;
         // }
 
     }else{
         $return = "Sorry, you don't have permission to access this content.";
-        $return .= wp_login_form();
+        $return .= wp_login_form(array('echo' => false));
     }
+    return $return;
 }
 add_shortcode( 'ind-complete-management', 'ind_complete_management' );
 

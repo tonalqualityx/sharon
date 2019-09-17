@@ -12,7 +12,12 @@ class ind_Walker extends Walker_Nav_Menu {
 
         $output .= "<li class='ind-nav-item " . implode(" ", $item->classes) . "'>";
         if ($permalink && $permalink != '#') {
-            $output .= '<a href="' . $permalink . '">';
+            if (strpos($permalink, home_url()) !== false){
+                $target = '';
+            }else{
+                $target = ' target="_blank" ';
+            }
+            $output .= '<a href="' . $permalink . '" ' . $target . '>';
         }
         $output .= $title;
         if ($permalink && $permalink != '#') {
