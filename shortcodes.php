@@ -317,7 +317,7 @@ function ind_document_search($atts){
     ob_start();
     ?>
     <div class='ind-doc-search-contianer'>
-        <form id='ind-doc-search-form' action="" method="post">
+        <form id='ind-doc-search-form' action="#ind-doc-search-form" method="post">
             <div class='search-form-individual'>
                 <label for='cat-search'>Category</label>
                 <select id="cat-search" class="cat-search" name="cat-search" placeholder="">
