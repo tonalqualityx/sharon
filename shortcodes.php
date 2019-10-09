@@ -343,9 +343,9 @@ function ind_document_search($atts){
                 </select>
             </div>
             <div class='search-form-individual'>
-            <label for='org-search'>Organization</label>
+            <label for='org-search'>Board/Committee</label>
             <select id='org-search' class='org-search' name='org-search' placeholder=''>
-                <option value="" dissabled selected>Select Organization</option>
+                <option value="" dissabled selected>Select Board/Committee</option>
     <?php
     $args = array(
         'post_type' => 'organization',
