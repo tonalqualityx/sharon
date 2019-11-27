@@ -217,7 +217,7 @@ function indsha_get_meetings_ajax(){
     }
     $args = array(
         'post_type' => "event",
-        'numberposts' => -1,
+        'posts_per_page' => -1,
         'toolset_relationships' => array(
             'role' => 'child',
             'related_to' => intval($org),

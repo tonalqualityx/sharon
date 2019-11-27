@@ -208,7 +208,9 @@ MENU STYLES
     margin: 0;
     list-style: none;
 }
-
+.ind-saved-form{
+    color:green;
+}
 #menu-global-menu .alert-button {
     padding: 20px 25px;
     background: #DE5000;

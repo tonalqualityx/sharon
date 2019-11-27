@@ -51,6 +51,7 @@ jQuery(document).ready(function( $ ) {
 
     $('body').on('click', '#doc-form-save', function(e){
         e.preventDefault();
+        $('.ind-saved-form').remove();
         $('.required-form-text').each(function(){
             $(this).remove();
         })
@@ -83,9 +84,15 @@ jQuery(document).ready(function( $ ) {
                 type: 'POST',
                 success: function (response) {
                     console.log(response);
+                    $('#upload-doc-title').val("");
+                    $('#upload-doc-date').val("");
+                    $('#doc-organization').val("");
+                    $('#doc-category').val("");
+                    $('#upload-doc-file').val('');
+                    $('#doc-form-save').after("<p class='ind-saved-form'>Saved!</p>");
+                    indshaDelLoading();
                 }
             });
-            indshaDelLoading();
         }
     })
 
@@ -111,6 +118,7 @@ jQuery(document).ready(function( $ ) {
 
     $('body').on('click', '#event-form-save', function(e){
         e.preventDefault();
+        $('.ind-saved-form').remove();
         $('.required-form-text').each(function(){
             $(this).remove();
         })
@@ -162,6 +170,13 @@ jQuery(document).ready(function( $ ) {
                 type: 'POST',
                 success: function(response){
                     console.log(response);
+                    $('#event-doc-special').prop("checked", false);
+                    $('#doc-organization').val("");
+                    $('#event-doc-date').val("");
+                    tinymce.editors['event-doc-content'].setContent('');
+                    $('.event-doc-container').empty();
+                    $('#event-doc-agenda').val('');
+                    $('#event-form-save').after("<p class='ind-saved-form'>Saved!</p>");
                     indshaDelLoading();
                 }
             });        
@@ -219,6 +234,7 @@ jQuery(document).ready(function( $ ) {
 
     $('body').on('click', '#meeting-form-save', function(e){
         e.preventDefault();
+        $('.ind-saved-form').remove();
         $('.required-form-text').each(function(){
             $(this).remove();
         })
@@ -251,9 +267,15 @@ jQuery(document).ready(function( $ ) {
                 type: 'POST',
                 success: function (response) {
                     console.log(response);
+                    indshaDelLoading();
+                    $('#minutes-override').prop("checked", false);
+                    $('#meeting-category').val('');
+                    $('#meeting-organization').val('');
+                    $('#meeting-meeting').val('');
+                    $('#upload-meeting-file').val('');
+                    $('#meeting-form-save').after("<p class='ind-saved-form'>Saved!</p>");
                 }
             });
-            indshaDelLoading();
         }
     })
 
