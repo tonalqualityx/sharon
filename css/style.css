@@ -292,6 +292,7 @@ Alert Styles
     max-width: 1200px;
     width:100%;
     margin: auto;
+    font-size: 1.5em;
 }
 .alert-bg:nth-child(odd){
     background: red;
