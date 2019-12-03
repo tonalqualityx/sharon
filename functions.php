@@ -72,7 +72,7 @@ function ind_display_notice($notice = false){
 add_action('wp_footer', 'ind_display_notice');
 
 function org_header_hero(){
-    $default_img = home_url() . '/wp-content/uploads/2016/09/BG2.gif';
+    $default_img = home_url() . '/wp-content/uploads/2016/09/header.jpg';
     if(has_post_thumbnail()){
         $default_img = get_the_post_thumbnail_url(get_the_id(), 'full');
     }
