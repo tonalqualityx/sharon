@@ -131,6 +131,11 @@
     justify-content: space-between;
     flex-direction: column;
 }
+.doc_page_selected{
+    text-decoration: none;
+    color: black;
+    cursor: auto;
+}
 #start-date-search, #end-date-search{
     max-width: 150px;
 }

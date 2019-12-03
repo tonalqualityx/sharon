@@ -400,7 +400,8 @@ function ind_document_search($atts){
             // var_dump(strtotime($start_date));
             $args = array(
                 'post_type' => "document",
-                'numberposts' => -1,            
+                'posts_per_page' => -1,
+                'paged' => $paged,        
             );
             if($cat_search){
                 $args['tax_query'] = array(
@@ -454,7 +455,7 @@ function ind_document_search($atts){
                 foreach($search->posts as $key => $value){
                     // $array_of_ids[] = $value->ID;
                     $attatch_args = array('post_parent' => $value->ID,
-                        'numberposts' => -1,
+                        'posts_per_page' => -1,
                         'post_type' => 'attachment',    
                     );
                     $attachments = get_children($attatch_args);
@@ -493,21 +494,46 @@ function ind_document_search($atts){
             <div class='document-search-result-container'>
             <?php
             if($documents->have_posts()){
+                $counting_pages = 1;
                 while($documents->have_posts()){
                     $documents->the_post();
                     $id = get_the_id();
                     // var_dump(get_post_meta($id));
+                    if($counting_pages > 10){
+                        $pagination_class = 'hide';
+                    }
                     if($keyword){
                         $link = wp_upload_dir()['baseurl'] . '/' . get_post_meta($id, '_wp_attached_file', true);
                     }else{
                         $link = get_post_meta($id, 'wpcf-document-file', true);
                     }
                     ?>
-                    <div class='document-search-result-single'>
+                    <div class='document-search-result-single <?php echo $pagination_class; ?>'>
                         <a href='<?php echo $link; ?>' target="_blank"><?php echo get_the_title(wp_get_post_parent_id($id)); ?></a>
                     </div>
                     <?php
+                    $counting_pages++;
                 }
+                ?>
+                <div class="pagination">
+                    <?php 
+                        $total_count = count($documents->posts);
+                        $pagination = ceil($total_count / 10);
+                        $page_count = 1;
+                        while($pagination >= $page_count){
+                            if($page_count == 1){
+                                $page_class = 'doc_page_selected';
+                            }else{
+                                $page_class = '';
+                            }
+                            ?>
+                            <a href='#' class='doc-pagination <?php echo $page_class; ?>' data-num='<?php echo $page_count; ?>' ><?php echo $page_count; ?></a>
+                            <?php
+                            $page_count++;
+                        }
+                    ?>
+                </div>
+                <?php
             }
             ?>
             </div>

@@ -318,6 +318,23 @@ jQuery(document).ready(function( $ ) {
         var content = $(this).data('content');
         $('body').prepend("<div class='ind-modal-container'><div class='ind-modal-inside-container'><div class='ind-modal-x'>X</div><h3 class='ind-notice-header'>Notice</h3><p>" + content + "</p></div><div class='ind-modal-bg'></div></div>")
     });
+
+    $('body').on('click', '.doc-pagination', function(e){
+        e.preventDefault();
+        var num = $(this).data('num');
+        $('.doc-pagination').removeClass('doc_page_selected');
+        $('.doc-pagination').eq(num-1).addClass('doc_page_selected');
+        $('.document-search-result-single').each(function(){
+            if(!$(this).hasClass('hide')){
+                $(this).addClass('hide');
+            }
+        });
+        var count = 1;
+        while(count <= 10){
+            $('.document-search-result-single').eq(num*10-count).removeClass('hide');
+            count++;
+        }
+    });
 });
 
 function indshaAddLoading(){
