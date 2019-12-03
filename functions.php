@@ -49,6 +49,7 @@ function ind_display_notice($notice = false){
             }
         }
     }
+    wp_reset_postdata();
     if($notice == false){
         ?>
         <script>
