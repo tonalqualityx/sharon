@@ -748,3 +748,39 @@ function copy_date(){
     return date('Y');
 }
 add_shortcode('copy-date', 'copy_date');
+
+function meeting_schedule(){
+    $today = strtotime('now');
+    $args = array(
+        'posts_per_page' => -1,
+        'post_type' => 'event',
+        'meta_query' => array(
+            array(
+                'key' => 'wpcf-event-date',
+                'value' => $today,
+                'compare' => '>=',
+                'type' => 'NUMERIC',
+            ),
+        ),
+    );
+    $query  = new WP_Query($args);
+    ob_start();
+    if($query->have_posts()){
+        while($query->have_posts()){
+            $query->the_post();
+            $title = get_the_title();
+            // $id = get_the_ID();
+            // $date = get_post_meta($id, 'wpcf-event-date', true);
+            // $time = get_post_meta($id, 'wpcf-time', true);
+            $link = get_the_permalink();
+            ?>
+            <div class='ind-meeting-schedule-container'>
+                <a href='<?php echo $link; ?>'><?php echo $title; ?></a>
+            </div>
+            <?php
+
+        }
+    }
+    return ob_get_clean();
+}
+add_shortcode('meeting-schedule', 'meeting_schedule');
