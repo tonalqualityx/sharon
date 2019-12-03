@@ -765,6 +765,9 @@ function meeting_schedule(){
     );
     $query  = new WP_Query($args);
     ob_start();
+    ?>
+    <div class='ind-meeting-schedule-container'>
+    <?php
     if($query->have_posts()){
         while($query->have_posts()){
             $query->the_post();
@@ -774,13 +777,17 @@ function meeting_schedule(){
             // $time = get_post_meta($id, 'wpcf-time', true);
             $link = get_the_permalink();
             ?>
-            <div class='ind-meeting-schedule-container'>
-                <a href='<?php echo $link; ?>'><?php echo $title; ?></a>
-            </div>
+            <a href='<?php echo $link; ?>'><?php echo $title; ?></a>
             <?php
-
         }
+    }else{
+        ?>
+        <div class='ind-meeting-schedule-empty'>Nothing Scheduled at the moment please chack back soon.</div>
+        <?php
     }
+    ?>
+    </div>
+    <?php
     return ob_get_clean();
 }
 add_shortcode('meeting-schedule', 'meeting_schedule');
