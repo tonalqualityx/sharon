@@ -320,9 +320,9 @@ function ind_document_search($atts){
     <div class='ind-doc-search-contianer'>
         <form id='ind-doc-search-form' action="#ind-doc-search-form" method="post">
             <div class='search-form-individual'>
-                <label for='cat-search'>Category</label>
+                <label for='cat-search'>All Categories</label>
                 <select id="cat-search" class="cat-search" name="cat-search" placeholder="">
-                    <option value="" dissabled selected>Select Category</option>
+                    <option value="" dissabled selected>All Categories</option>
         
     <?php
     // var_dump($terms);
@@ -343,9 +343,9 @@ function ind_document_search($atts){
                 </select>
             </div>
             <div class='search-form-individual'>
-            <label for='org-search'>Board/Committee</label>
+            <label for='org-search'>All Boards</label>
             <select id='org-search' class='org-search' name='org-search' placeholder=''>
-                <option value="" dissabled selected>Select Board/Committee</option>
+                <option value="" dissabled selected>All Boards</option>
     <?php
     $args = array(
         'post_type' => 'organization',
