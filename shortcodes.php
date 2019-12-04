@@ -782,7 +782,7 @@ function meeting_schedule(){
         }
     }else{
         ?>
-        <div class='ind-meeting-schedule-empty'>Nothing scheduled at the moment please chack back soon.</div>
+        <div class='ind-meeting-schedule-empty'>Nothing scheduled at the moment please check back soon.</div>
         <?php
     }
     ?>
