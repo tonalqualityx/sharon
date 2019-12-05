@@ -335,6 +335,13 @@ jQuery(document).ready(function( $ ) {
             count++;
         }
     });
+
+    $('body').on('click', '.ind-local-event', function(e){
+        e.preventDefault();
+        var content = $(this).data('content');
+        var title = $(this).data('title');
+        $('body').append("<div class='ind-modal-container'><div class='indsha-background-container'><div class='ind-modal-inside-container'><div class='ind-modal-x'>X</div><h3 class='ind-notice-header'>" + title + "</h3><p>" + content + "</p></div><div class='ind-modal-bg'></div></div></div>");
+    });
 });
 
 function indshaAddLoading(){

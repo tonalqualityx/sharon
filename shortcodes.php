@@ -791,3 +791,43 @@ function meeting_schedule(){
     return ob_get_clean();
 }
 add_shortcode('meeting-schedule', 'meeting_schedule');
+
+function ind_local_events(){
+    $today = strtotime('now');
+    $args = array(
+        'posts_per_page' => -1,
+        'post_type' => 'local-event',
+        'meta_query' => array(
+            array(
+                'key' => 'wpcf-date',
+                'value' => $today,
+                'compare' => '>=',
+                'type' => 'NUMERIC',
+            ),
+        ),
+    );
+    $query  = new WP_Query($args);
+    ob_start();
+    ?>
+    <div class='ind-local-event-container'>
+    <?php
+    if($query->have_posts()){
+        while($query->have_posts()){
+            $query->the_post();
+            $title = get_the_title();
+            $content = get_the_content();
+            ?>
+            <a class='ind-local-event' data-title='<?php echo $title; ?>' data-content='<?php echo $content; ?>' href='#'><?php echo $title; ?></a>
+            <?php
+        }
+    }else{
+        ?>
+        <div class='ind-local-event-empty'>Nothing scheduled at the moment please check back soon.</div>
+        <?php
+    }
+    ?>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('local-events', 'ind_local_events');
