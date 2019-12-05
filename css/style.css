@@ -145,7 +145,7 @@
 }
 
 /* loading */
-.indsha-loading-background{
+.indsha-loading-background, .indsha-background-container{
 	position: fixed;
     top: 0;
     height: 100%;
