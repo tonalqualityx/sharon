@@ -23,7 +23,7 @@ function ind_organization_management(){
                 array_push($orgs_array, $id);
             }
         }
-    }
+    }   
     if(is_user_logged_in() && (current_user_can('administrator') || $has_orgs)){
         // foreach($orgs_array as $key => $value){
             ob_start();
@@ -53,11 +53,8 @@ function ind_organization_management(){
 add_shortcode( 'ind-organization-management', 'ind_organization_management' );
 
 function ind_complete_management(){
-    $has_orgs = false;
     $choice = ['Edit Department/Committee Page', 'Schedule a meeting or event', 'Add Document', 'Add/edit meeting minutes or docs'];
-    if(is_user_logged_in() && (current_user_can('administrator') || $has_orgs)){
-        // foreach($choice as $key => $value){
-            
+    if(is_user_logged_in()){    
             ob_start();
             ?>
             <input type='hidden' id='meeting-creation-url' data-url='<?php echo home_url() . "/complete-management/add-meeting-and-agenda"; ?>'>
@@ -75,10 +72,8 @@ function ind_complete_management(){
             <div class='complete-management-form-container'></div>
             <?php
             $return = ob_get_clean();
-            // echo $form;
-        // }
-
     }else{
+        
         $return = "Sorry, you don't have permission to access this content.";
         $return .= wp_login_form(array('echo' => false));
     }
