@@ -696,8 +696,9 @@ function ind_notifications(){
         foreach($notification_array as $key => $value){
             $title = $value['title'];
             $content = $value['content'];
+
             ?>
-            <a href="#" class='notice-button' data-content='<?php echo $content; ?>'><?php echo $title; ?></a>
+            <a href="#" class='notice-button' data-content='<?php echo htmlspecialchars($content, ENT_QUOTES); ?>'><?php echo $title; ?></a>
             <?php
         }
         $return = ob_get_clean();
@@ -738,6 +739,47 @@ function ind_upcoming_events(){
     return $return;
 }
 add_shortcode('ind-upcoming-events', 'ind_upcoming_events');
+
+function ind_bid_opps(){
+    $today = strtotime('now');
+    $args = array(
+        'posts_per_page' => -1,
+        'post_type' => 'bid',
+        'meta_query' => array(
+            array(
+                'key' => 'wpcf-date',
+                'value' => $today,
+                'compare' => '>=',
+                'type' => 'NUMERIC',
+            ),
+        ),
+    );
+    ob_start();
+    $bids = new WP_Query($args);
+    if($bids->have_posts()){
+        while($bids->have_posts()){
+            $bids->the_post();
+            $link = get_the_permalink();
+            $content = get_the_content();
+            $title = get_the_title();
+            $page = "<h2 class='margin-top-0'>" . $title . "</h2><p>" . $content . "</p>";
+            ?>
+            <p class='upcoming-events-list'>
+                <div class='ind-bid-content hide'><?php echo $page; ?></div>
+                <a class='ind-make-modal' data-class='ind-bid-content' href='#'><?php echo get_the_title(); ?></a>
+            </p>
+            <?php
+        }
+    }else{
+        ?>
+        <p>Nothing Scheduled at the moment please check back soon.</p>
+        <?php
+    }
+    wp_reset_postdata();
+    $return = ob_get_clean();
+    return $return;
+}
+add_shortcode('ind-bid-opps', 'ind_bid_opps');
 
 function copy_date(){
     return date('Y');

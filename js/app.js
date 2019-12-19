@@ -108,7 +108,7 @@ jQuery(document).ready(function( $ ) {
         e.preventDefault();
         var terms = $('#get_current_terms').html();
         console.log(terms);
-        $('.event-doc-container').append("<span class='ind-add-doc-container'><span class='event-doc-file-title-text'>Title: </span><input type='text' class='event-doc-file-title'><input type='file' class='event-doc-file' name='my_file_upload[]'><select name='my_file_cat[]' class='my-file-cat doc-org-dropdown'>" + terms + "</select><a href='#' class='remove-add-document red-text'>Remove</a></span>");
+        $('.event-doc-container').append("<div class='ind-add-doc-container'><label class='event-doc-file-title-text'>Title: <input type='text' class='event-doc-file-title'></input><input type='file' class='event-doc-file' name='my_file_upload[]'><select name='my_file_cat[]' class='my-file-cat doc-org-dropdown'>" + terms + "</select><a href='#' class='remove-add-document red-text'>Remove</a></div>");
     })
 
     $('body').on('click', '.remove-add-document', function(e){
@@ -342,6 +342,31 @@ jQuery(document).ready(function( $ ) {
         var title = $(this).data('title');
         $('body').append("<div class='ind-modal-container'><div class='indsha-background-container'><div class='ind-modal-inside-container'><div class='ind-modal-x'>X</div><h3 class='ind-notice-header'>" + title + "</h3><p>" + content + "</p></div><div class='ind-modal-bg'></div></div></div>");
     });
+
+    // modals
+    $('body').on('click', '.ind-sharon-close-modal',function(e){
+        e.preventDefault();
+        $('.ind-modal-container').remove();
+    });
+
+    $('body').on('click', '.ind-modal-container', function(e){
+        e.preventDefault();
+        if(e.target == this){
+            $(this).remove();
+        }
+    });
+
+    $('body').on('click', '.ind-make-modal', function(e){
+        e.preventDefault();
+        var content_class = $(this).data('class');
+        var content = $(this).parent().find('.' + content_class).html();
+        create_modal(content);
+    });
+    
+    // *****************************************functions *************************************************
+    function create_modal(content){
+        $('body').prepend("<div class='ind-modal-container'><div class='ind-modal-inside-container'><div class='ind-modal-x'>X</div>" + content + "</div><div class='ind-modal-bg'></div></div>");
+    }
 });
 
 function indshaAddLoading(){
