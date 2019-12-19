@@ -22,8 +22,8 @@ require_once(IND_ROOT_PATH . "/shortcodes.php");
 require_once(IND_ROOT_PATH . "/menu/main-nav.php");
 
 function indsha_enqueue(){
-    wp_enqueue_style('indsha-style', IND_ROOT_URL . 'css/style.css', '1.0.0');
-    wp_register_script( 'indsha-js', IND_ROOT_URL . 'js/app.js', array( 'jquery' ), '1.0.0');
+    wp_enqueue_style('indsha-style', IND_ROOT_URL . 'css/style.css', '1.0.1');
+    wp_register_script( 'indsha-js', IND_ROOT_URL . 'js/app.js', array( 'jquery' ), '1.0.1');
     wp_localize_script( 'indsha-js', 'indsha_ajax',
       array(
          'ajaxurl' => admin_url( 'admin-ajax.php' ),
