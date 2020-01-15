@@ -461,7 +461,7 @@ function ind_document_search($atts){
                     }
                 }
                 wp_reset_postdata();
-                if($array_of_ids){
+                if(isset($array_of_ids)){
                     $new_args = array(
                         's' => $keyword,
                         'post_type' => 'attachment',
@@ -470,6 +470,8 @@ function ind_document_search($atts){
                     $documents = new WP_Query();
                     $documents->parse_query($new_args);
                     relevanssi_do_query($documents);
+                }else{
+                    $documents = new WP_Query($args);
                 }
                 // $search_args = array(
                 //     's' => $keyword,
@@ -482,8 +484,7 @@ function ind_document_search($atts){
                 
                 
                 // var_dump($search->posts);
-            }else{
-                $documents = new WP_Query($args);
+                
             }
             ?>
             <div class='document-search-result-container'>
@@ -528,6 +529,10 @@ function ind_document_search($atts){
                         }
                     ?>
                 </div>
+                <?php
+            }else{
+                ?>
+                <p>No search results found</p>
                 <?php
             }
             ?>
