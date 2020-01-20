@@ -306,6 +306,9 @@ function ind_document_search($atts){
     }
     if(isset($_POST['keyword-search'])){
         $keyword = $_POST['keyword-search'];
+        if($keyword == ''){
+            unset($keyword);
+        }
     }
     if(isset($_POST['document-search-validation'])){
         $validation = $_POST['document-search-validation'];
@@ -485,7 +488,11 @@ function ind_document_search($atts){
                 
                 // var_dump($search->posts);
                 
+            } else {
+                $documents = new WP_Query($args);
+
             }
+            
             ?>
             <div class='document-search-result-container'>
             <?php
