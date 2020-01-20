@@ -489,7 +489,7 @@ function ind_document_search($atts){
             ?>
             <div class='document-search-result-container'>
             <?php
-            if($documents->have_posts()){
+            if($documents && $documents->have_posts()){
                 $counting_pages = 1;
                 while($documents->have_posts()){
                     $documents->the_post();
