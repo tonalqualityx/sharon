@@ -350,7 +350,7 @@ jQuery(document).ready(function( $ ) {
     });
 
     $('body').on('click', '.ind-modal-container', function(e){
-        e.preventDefault();
+//         e.preventDefault();
         if(e.target == this){
             $(this).remove();
         }
