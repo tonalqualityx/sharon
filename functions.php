@@ -84,21 +84,3 @@ function org_header_hero(){
     $return = ob_get_clean();
     return $return;
 }
-
-function report_a_concern_info(){
-    if(! is_admin()){
-        $mask_js_url = home_url()  . '/wp-content/plugins/gravityforms/js/jquery.maskedinput.min.js';
-
-
-        ob_start();
-        gravity_form(1, true, false, false, null, false, 1, true);
-        $return = ob_get_clean();
-        $return = str_replace("style='display:none'", '', $return);
-        ?>
-        <script>
-        var report_concern = <?php echo json_encode($return); ?>;
-        </script>
-        <?php
-    }
-}
-add_action( 'plugins_loaded' , 'report_a_concern_info');
