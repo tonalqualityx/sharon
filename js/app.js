@@ -281,12 +281,6 @@ jQuery(document).ready(function( $ ) {
 
 
     // report a concern menu button
-    $('body').on('click', '#menu-global-menu .alert-button', function(e){
-        e.preventDefault();
-        create_modal(report_concern);
-        $('.ind-modal-inside-container').children(1).show();
-
-    });
 
     $('body').on('click', '.ind-modal-x', function(){
         $('.ind-modal-container').remove();
