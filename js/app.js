@@ -283,27 +283,9 @@ jQuery(document).ready(function( $ ) {
     // report a concern menu button
     $('body').on('click', '#menu-global-menu .alert-button', function(e){
         e.preventDefault();
-        indshaAddLoading();
-        $.ajax({
-            url: indsha_ajax.ajaxurl,
-            dataType: 'text',
-            method: 'POST',
-            data: {
-                action: 'indsha_report_a_concern_ajax',
-                nonce: indsha_ajax.sharon_nonce,
-            },
-            type: 'POST',
-            success: function(e){
-                e = JSON.parse(e);
-                console.log(e['filename']);
-                var script = document.createElement( 'script' );
-                script.type = 'text/javascript';
-                script.src = e['filename'];
-                $( "head" ).prepend( script );
-                $('body').prepend(e['modal']);
-                indshaDelLoading();
-            }
-        });
+        create_modal(report_concern);
+        $('.ind-modal-inside-container').children(1).show();
+
     });
 
     $('body').on('click', '.ind-modal-x', function(){
