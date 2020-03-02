@@ -286,7 +286,7 @@ function ind_document_search($atts){
     $terms = get_terms(
         array(
             'taxonomy' => 'document-category',
-            'hide_empty' => flase,
+            'hide_empty' => false,
         )
     );
     if(isset($_POST['cat-search'])){
