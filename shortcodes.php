@@ -85,6 +85,7 @@ function ind_org_management_form(){
     if(isset($_GET['id'])){
         $id = $_GET['id'];
     }
+    echo do_shortcode('[ind-complete-management]');
     ?>
     <h1 class='form-title'>Editing - <?php echo get_the_title($id); ?></h1>
     <?php 
@@ -208,6 +209,7 @@ function ind_add_event(){
         'hide_empty' => false,
     ) );
     ob_start();
+    echo do_shortcode('[ind-complete-management]');
     ?>
     <div id='get_current_terms' class='hide'>
     <option value='' dissabled selected>Select a category</option>
