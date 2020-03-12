@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );//For security
 
 define('IND_ROOT_PATH', plugin_dir_path(__FILE__));
 define('IND_ROOT_URL', plugin_dir_url(__FILE__));
+define('INDSHA_VERSION', '1.0.2');
 
 require_once(IND_ROOT_PATH . "/functions.php");
 require_once(IND_ROOT_PATH . "/admin-functions.php");
@@ -22,8 +23,8 @@ require_once(IND_ROOT_PATH . "/shortcodes.php");
 require_once(IND_ROOT_PATH . "/menu/main-nav.php");
 
 function indsha_enqueue(){
-    wp_enqueue_style('indsha-style', IND_ROOT_URL . 'css/style.css', '1.0.1');
-    wp_register_script( 'indsha-js', IND_ROOT_URL . 'js/app.js', array( 'jquery' ), '1.0.1');
+    wp_enqueue_style('indsha-style', IND_ROOT_URL . 'css/style.css', INDSHA_VERSION);
+    wp_register_script( 'indsha-js', IND_ROOT_URL . 'js/app.js', array( 'jquery' ), INDSHA_VERSION);
     wp_localize_script( 'indsha-js', 'indsha_ajax',
       array(
          'ajaxurl' => admin_url( 'admin-ajax.php' ),
@@ -36,7 +37,7 @@ function indsha_enqueue(){
 add_action('wp_enqueue_scripts', 'indsha_enqueue');
 
 function indsha_admin_enqueue(){
-    wp_enqueue_style('indsha-style', IND_ROOT_URL . 'css/admin-style.css', "1.0.0");
+    wp_enqueue_style('indsha-style', IND_ROOT_URL . 'css/admin-style.css', INDSHA_VERSION);
 }
 add_action('admin_enqueue_scripts', 'indsha_admin_enqueue');
 
