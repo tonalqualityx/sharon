@@ -8,6 +8,9 @@ jQuery(document).ready(function( $ ) {
     
     $('body').on('click', '#complete-form-go', function(e){
         e.preventDefault();
+        e.stopPropagation();
+
+
         var num = $('.complete-dropdown').find(":selected").val();
         if(num == 1){
             var url = $('#meeting-creation-url').data('url');
@@ -27,12 +30,17 @@ jQuery(document).ready(function( $ ) {
                 type: 'POST',
                 success: function(e){
                     console.log(e);
+                    if($('.complete-management-form-container').length > 1){
+                        $('.complete-management-form-container')[1].remove();
+                    }
+                    $('.event-doc-form-container').empty();
                     $('.complete-management-form-container').empty();
                     $('.complete-management-form-container').append(e);
                     indshaDelLoading();
                 }
             });
         }
+        
 
     });
 

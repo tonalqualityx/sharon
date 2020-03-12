@@ -86,10 +86,15 @@ function ind_org_management_form(){
         $id = $_GET['id'];
     }
     echo do_shortcode('[ind-complete-management]');
+
     ?>
+    <div class='complete-management-form-container'>
     <h1 class='form-title'>Editing - <?php echo get_the_title($id); ?></h1>
     <?php 
     cred_form(4803,$id);
+    ?>
+    </div>
+    <?php
 }
 add_shortcode( 'ind-org-management-form', 'ind_org_management_form' );
 
