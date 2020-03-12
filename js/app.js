@@ -151,7 +151,7 @@ jQuery(document).ready(function( $ ) {
             $('.my-file-cat').each(function(){
                 cat_array.push($(this).val());
             })
-            console.log(tinymce.editors['event-doc-content'].getContent());
+            // console.log(tinymce.editors['event-doc-content'].getContent());
             fd.append('agenda', agenda);
             // fd.append('file_array', file_array);
             fd.append('org', $('#doc-organization').val());
