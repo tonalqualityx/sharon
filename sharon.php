@@ -4,7 +4,7 @@
  * Plugin URI: https://becomeindelible.com
  * Description: Sets up custom data specific to the Sharon VT site.
  * Author: Indelible Inc.
- * Version: 0.1.0
+ * Version: 0.1.1
  * Author URI: https://becomeindelible.com
  * License: GPL2+
  * Github Plugin URI: tonalqualityx/sharon
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );//For security
 
 define('IND_ROOT_PATH', plugin_dir_path(__FILE__));
 define('IND_ROOT_URL', plugin_dir_url(__FILE__));
-define('INDSHA_VERSION', '1.0.2');
+define('INDSHA_VERSION', '1.0.3');
 
 require_once(IND_ROOT_PATH . "/functions.php");
 require_once(IND_ROOT_PATH . "/admin-functions.php");

@@ -805,8 +805,14 @@ function copy_date(){
 }
 add_shortcode('copy-date', 'copy_date');
 
-function meeting_schedule(){
-    $today = strtotime('now');
+function meeting_schedule($atts){
+    $atts = shortcode_atts(
+        array(
+            'days' => 2,
+        ), $atts, 'meeting-schedule'
+    );
+    $days = $atts['days'] * 86400;
+    $today = strtotime('now') - $days;
     $args = array(
         'posts_per_page' => -1,
         'post_type' => 'event',
