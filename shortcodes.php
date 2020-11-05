@@ -784,8 +784,10 @@ function ind_bid_opps(){
             $page = "<h2 class='margin-top-0'>" . $title . "</h2><p>" . $content . "</p>";
             ?>
             <p class='upcoming-events-list'>
-                <div class='ind-bid-content hide'><?php echo $page; ?></div>
-                <a class='ind-make-modal' data-class='ind-bid-content' href='#'><?php echo get_the_title(); ?></a>
+                <div>
+                    <div class='ind-bid-content hide'><?php echo $page; ?></div>
+                    <a class='ind-make-modal' data-class='ind-bid-content' href='#'><?php echo get_the_title(); ?></a>
+                <div>
             </p>
             <?php
         }
