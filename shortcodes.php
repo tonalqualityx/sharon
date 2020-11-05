@@ -787,7 +787,7 @@ function ind_bid_opps(){
                 <div>
                     <div class='ind-bid-content hide'><?php echo $page; ?></div>
                     <a class='ind-make-modal' data-class='ind-bid-content' href='#'><?php echo get_the_title(); ?></a>
-                <div>
+                </div>
             </p>
             <?php
         }
